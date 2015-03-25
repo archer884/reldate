@@ -54,6 +54,7 @@ fn main() {
 }
 
 fn parse_args() -> ArgMatches {
+    // todo: add range control; we have to know how many dates to print
     App::new("reldate")
         .version("0.0.1")
         .author("J/A <archer884@gmail.com")
