@@ -2,18 +2,13 @@
 //!
 //! ## Translation
 //!
-//! A relative date is like when you've got a meeting on 
-//! Monday, but it's a meeting that happens the third 
-//! Monday of every month. You can add these kinds of 
-//! events to some calendars, but it's actually a pretty 
-//! rare sort of function: standard calendars like the one 
-//! provided in iOS or the one provided in Android don't 
-//! include this.
+//! A relative date is like when you've got a meeting on Monday, but it's a meeting that happens
+//! the third Monday of every month. You can add these kinds of events to some calendars, but it's
+//! actually a pretty rare sort of function: standard calendars like the one provided in iOS or
+//! the one provided in Android don't include this.
 //!
-//! This library is designed to permit the programmer to 
-//! generate such date sequences without a lot of effort,
-//! so that there's no excuse for the next big calendar 
-//! app not to include it. ;)
+//! This library is designed to permit the programmer to generate such date sequences without a
+//! lot of effort, so that there's no excuse for the next big calendar app not to include it. ;)
 //!
 //! ## Examples
 //!
@@ -26,14 +21,13 @@ use chrono::{ Duration, Local, NaiveDate, Weekday };
 
 /// Allows iteration of arbitrary date ranges.
 ///
-/// The date range iterator functions as a generator for date 
-/// ranges bounded only on the "start" side; they continue in 
-/// whatever direction forever (or, rather, until the date range 
-/// for the underlying NaiveDate type is exhausted).
+/// The date range iterator functions as a generator for date ranges bounded only on the "start"
+/// side; they continue in whatever direction forever (or, rather, until the date range for the
+/// underlying NaiveDate type is exhausted).
 pub struct DateRangeIterator<F>
 {
     i: NaiveDate,   // iterative date value
-    f: F                    // incrementor function 
+    f: F            // incrementor function
 }
 
 impl<F> DateRangeIterator<F>
@@ -94,7 +88,7 @@ mod test {
     #[test]
     fn can_detect_day() {
         let date = NaiveDate::from_ymd(2015, 3, 27);
-        
+
         assert!(Weekday::Fri == date.weekday());
     }
 }
