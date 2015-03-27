@@ -32,7 +32,7 @@ use chrono::{ Duration, Local, NaiveDate, Weekday };
 /// for the underlying NaiveDate type is exhausted).
 pub struct DateRangeIterator<F>
 {
-    i: Option<NaiveDate>,   // iterative date value
+    i: NaiveDate,   // iterative date value
     f: F                    // incrementor function 
 }
 
@@ -41,32 +41,28 @@ impl<F> DateRangeIterator<F>
 {
     pub fn new() -> DateRangeIterator<F> {
         DateRangeIterator {
-            i: Some(Local::today().naive_local()),
+            i: Local::today().naive_local(),
             f: |d: NaiveDate| d + Duration::days(1),
         }
     }
 
     pub fn from_date(date: NaiveDate) -> DateRangeIterator<F> {
         DateRangeIterator {
-            i: Some(date),
+            i: date,
             f: |d: NaiveDate| d + Duration::days(1),
         }
     }
 }
 
 impl<F> Iterator for DateRangeIterator<F>
-    where F: Fn(NaiveDate) -> Option<NaiveDate>
+    where F: Fn(NaiveDate) -> NaiveDate
 {
     type Item = NaiveDate;
 
     fn next(&mut self) -> Option<NaiveDate> {
-        match self.i {
-            Some(date) => {
-                self.i = (self.f)(date);
-                Some(date)
-            },
-            None => None,
-        }
+        let ret = Some(self.i);
+        self.i = (self.f)(self.i);
+        ret
     }
 }
 
