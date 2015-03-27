@@ -37,19 +37,19 @@ pub struct DateRangeIterator<F>
 }
 
 impl<F> DateRangeIterator<F>
-    where F: Fn(NaiveDate) -> Option<NaiveDate>
+    where F: Fn(NaiveDate) -> NaiveDate
 {
     pub fn new() -> DateRangeIterator<F> {
         DateRangeIterator {
             i: Some(Local::today().naive_local()),
-            f: |d: NaiveDate| d.checked_add(Duration::days(1)),
+            f: |d: NaiveDate| d + Duration::days(1),
         }
     }
 
     pub fn from_date(date: NaiveDate) -> DateRangeIterator<F> {
         DateRangeIterator {
             i: Some(date),
-            f: |d: NaiveDate| d.checked_add(Duration::days(1)),
+            f: |d: NaiveDate| d + Duration::days(1),
         }
     }
 }
