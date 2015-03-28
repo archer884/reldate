@@ -13,11 +13,11 @@ When I talk about relative dates, I'm not talking about going out with your cous
 
 ## Episodes
 
-[** Relative Dates, Part 1 **](https://youtu.be/sv9fTlU7SCA?list=PLTOeCUgrkpMNEHx6j0vCH0cuyAIVZadnc)  
+[Relative Dates, Part 1](https://youtu.be/sv9fTlU7SCA?list=PLTOeCUgrkpMNEHx6j0vCH0cuyAIVZadnc)  
 Also known as "the one where everything takes forever." In this episode, we set up a new cargo project and then built our command line parsing on top of a library called clap.
 
-[** Relative Dates, Intermission **](https://youtu.be/a3bep5U6GGk?list=PLTOeCUgrkpMNEHx6j0vCH0cuyAIVZadnc)  
+[Relative Dates, Intermission](https://youtu.be/a3bep5U6GGk?list=PLTOeCUgrkpMNEHx6j0vCH0cuyAIVZadnc)  
 Also known as "the one that took even longer!" In this episode, we take a break from Rust to write the entire thing from start to finish in C#. Command line parsing provided by my own library, available on nuget. Hooray for dogfooding! :P
 
-[** Relative dates, Part 2 **](https://youtu.be/rsqohOuBKN0?list=PLTOeCUgrkpMNEHx6j0vCH0cuyAIVZadnc)  
+[Relative dates, Part 2](https://youtu.be/rsqohOuBKN0?list=PLTOeCUgrkpMNEHx6j0vCH0cuyAIVZadnc)  
 Also known as "the one with all the testing." In this episode, we revamp our project structure and start creating the library that's going to do all the hard work. Which means, of course, we have to write some tests! 
