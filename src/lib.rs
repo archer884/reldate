@@ -16,8 +16,7 @@
 
 #![feature(std_misc)]
 extern crate chrono;
-
-use chrono::{ Duration, Local, NaiveDate, Weekday };
+use chrono::{ Local, NaiveDate };
 
 /// Allows iteration of arbitrary date ranges.
 ///
