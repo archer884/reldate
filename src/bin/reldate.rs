@@ -2,7 +2,7 @@ extern crate clap;
 
 use clap::{ App, Arg, ArgMatches, SubCommand };
 
-fn main() {
+pub fn main() {
     let matches = parse_args();
   
     if let Some(ref matches) = matches.subcommand_matches("week") {
