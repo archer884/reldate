@@ -31,46 +31,39 @@ pub struct DateRangeIterator<F>
 }
 
 impl<F> DateRangeIterator<F>
-    where F: Fn(NaiveDate) -> NaiveDate
+    where F: FnMut(&NaiveDate) -> NaiveDate
 {
-    pub fn new() -> DateRangeIterator<F> {
-        DateRangeIterator {
-            i: Local::today().naive_local(),
-            f: |d: NaiveDate| d + Duration::days(1),
-        }
+    pub fn new(incrementor: F) -> DateRangeIterator<F> {
+        DateRangeIterator { i: Local::today().naive_local(), f: incrementor }
     }
 
-    pub fn from_date(date: NaiveDate) -> DateRangeIterator<F> {
-        DateRangeIterator {
-            i: date,
-            f: |d: NaiveDate| d + Duration::days(1),
-        }
+    pub fn from_date(date: NaiveDate, incrementor: F) -> DateRangeIterator<F> {
+        DateRangeIterator { i: date, f: incrementor }
     }
 }
 
 impl<F> Iterator for DateRangeIterator<F>
-    where F: Fn(NaiveDate) -> NaiveDate
+    where F: FnMut(&NaiveDate) -> NaiveDate
 {
     type Item = NaiveDate;
 
     fn next(&mut self) -> Option<NaiveDate> {
         let ret = Some(self.i);
-        self.i = (self.f)(self.i);
+        self.i = (self.f)(&self.i);
         ret
     }
 }
 
 #[cfg(test)]
 mod test {
-    use chrono::{ Datelike, NaiveDate, Weekday };
+    use chrono::{ Datelike, Duration, NaiveDate, Weekday };
     use super::*;
 
     #[test]
     fn can_generate_range(){
-        let range: Vec<_> = DateRangeIterator::from_date(NaiveDate::from_ymd(
-                2000,
-                12,
-                25))
+        let range: Vec<_> = DateRangeIterator::from_date(
+                NaiveDate::from_ymd(2000, 12, 25),
+                |&d| d + Duration::days(1))
             .take(5)
             .collect();
 
