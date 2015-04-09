@@ -1,6 +1,6 @@
 //! Library for generating relative datestreams in Rust.
 //!
-//! ## Abstract (in English)
+//! # Abstract (in English)
 //!
 //! A relative date is like when you've got a meeting on monday, but it's a meeting 
 //! that happens on the third day of every month. It isn't possible to add this sort 
