@@ -14,9 +14,9 @@
 //!
 //! <Code samples go here.>
 
-#![feature(std_misc)]
+#![feature(box_syntax, std_misc)]
 extern crate chrono;
-use chrono::{ Local, NaiveDate };
+use chrono::{ Datelike, Duration, Local, NaiveDate, Weekday };
 
 /// Allows iteration of arbitrary date ranges.
 ///
@@ -60,6 +60,23 @@ impl<F> Iterator for DateRangeIterator<F>
     }
 }
 
+pub fn weekday_iterator(date: NaiveDate, day: Weekday)
+    -> Box<Iterator<Item=NaiveDate>>
+{
+    box DateRangeIterator::from_date(date, move |d| weekday_incrementor(d, day)).skip(1)
+}
+
+fn weekday_incrementor(date: &NaiveDate, day: Weekday) -> Option<NaiveDate> {
+    let mut date = date.clone();
+    loop {
+        date = match date.checked_add(Duration::days(1)) {
+            Some(date) if date.weekday() == day => return Some(date),
+            Some(date) => date,
+            None => return None,
+        };
+    }
+}
+
 #[cfg(test)]
 mod test {
     use chrono::{ Datelike, Duration, NaiveDate, Weekday };
@@ -88,6 +105,27 @@ mod test {
             NaiveDate::from_ymd(2015, 3, 30),
             NaiveDate::from_ymd(2015, 3, 31),
         ];
+
+        assert!(range == test_range);
+    }
+
+    #[test]
+    fn can_generate_weekly_range() {
+        let range: Vec<_> = super::weekday_iterator(
+                NaiveDate::from_ymd(2015, 4, 19),
+                Weekday::Tue)
+            .take(5)
+            .collect();
+
+        let test_range = [
+            NaiveDate::from_ymd(2015, 4, 21),
+            NaiveDate::from_ymd(2015, 4, 28),
+            NaiveDate::from_ymd(2015, 5, 5),
+            NaiveDate::from_ymd(2015, 5, 12),
+            NaiveDate::from_ymd(2015, 5, 19),
+        ];
+
+        for date in &range { println!("{}", date); }
 
         assert!(range == test_range);
     }

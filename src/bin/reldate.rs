@@ -53,7 +53,7 @@ pub fn main() {
     }
 }
 
-fn parse_args() -> ArgMatches {
+fn parse_args<'a>() -> ArgMatches<'a> {
     // todo: add range control; we have to know how many dates to print
     App::new("reldate")
         .version("0.0.1")
