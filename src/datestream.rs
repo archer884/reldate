@@ -2,26 +2,26 @@
 //!
 //! # Abstract (in English)
 //!
-//! A relative date is like when you've got a meeting on monday, but it's a meeting 
-//! that happens on the third day of every month. It isn't possible to add this sort 
-//! of thing to a lot of calendars because it's kind of a rare featujre: iOS and 
+//! A relative date is like when you've got a meeting on monday, but it's a meeting
+//! that happens on the third day of every month. It isn't possible to add this sort
+//! of thing to a lot of calendars because it's kind of a rare featujre: iOS and
 //! Android both lack this capability out of the box.
 //!
-//! This library simplifies the task of creating sequences of relative dates so that 
+//! This library simplifies the task of creating sequences of relative dates so that
 //! programmers can make use of them in their applications.
 //!
 //! ## Examples
 //!
 //! <Code samples go here.>
 
-#![feature(box_syntax, std_misc)]
+#![feature(box_syntax)]
 extern crate chrono;
 use chrono::{ Datelike, Duration, Local, NaiveDate, Weekday };
 
 /// Allows iteration of arbitrary date ranges.
 ///
-/// The date range iterator functions as a generator for date ranges bounded on the 
-/// seed date; the range will continue to the upper or lower bound of `NaiveDate` 
+/// The date range iterator functions as a generator for date ranges bounded on the
+/// seed date; the range will continue to the upper or lower bound of `NaiveDate`
 /// and should be bounded otherwise by a `take()` or `take_while()` iterator adapter.
 pub struct DateRangeIterator<F> {
     i: Option<NaiveDate>,

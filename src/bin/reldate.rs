@@ -4,7 +4,7 @@ use clap::{ App, Arg, ArgMatches, SubCommand };
 
 pub fn main() {
     let matches = parse_args();
-  
+
     if let Some(ref matches) = matches.subcommand_matches("week") {
         let day = match matches.value_of("day") {
             Some(day) => day,
@@ -53,34 +53,34 @@ pub fn main() {
     }
 }
 
-fn parse_args<'a>() -> ArgMatches<'a> {
+fn parse_args<'a, 'b>() -> ArgMatches<'a, 'b> {
     // todo: add range control; we have to know how many dates to print
     App::new("reldate")
         .version("0.0.1")
         .author("J/A <archer884@gmail.com>")
         .about("Prints relative dates.")
-        .subcommand(SubCommand::new("month")
+        .subcommand(SubCommand::with_name("month")
             .about("Allows creation of month-relative date streams.")
-            .arg(Arg::new("day")
+            .arg(Arg::with_name("day")
                 .short("d")
                 .long("day")
                 .help("day of week")
                 .takes_value(true))
-            .arg(Arg::new("ord")
+            .arg(Arg::with_name("ord")
                  .short("o")
                  .long("ord")
                  .help("ord value of repeated date")
                  .takes_value(true)))
-        .subcommand(SubCommand::new("week")
+        .subcommand(SubCommand::with_name("week")
             .about("Allows creation of week-relative date streams.")
-            .arg(Arg::new("day")
+            .arg(Arg::with_name("day")
                 .short("d")
                 .long("day")
                 .help("day of week")
                 .takes_value(true)))
-        .subcommand(SubCommand::new("year")
+        .subcommand(SubCommand::with_name("year")
             .about("Allows immortals to sort out their calendars.")
-            .arg(Arg::new("day")
+            .arg(Arg::with_name("day")
                  .short("d")
                  .long("day")
                  .help("day of year")
