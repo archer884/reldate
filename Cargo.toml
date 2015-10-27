@@ -1,18 +1,12 @@
 [package]
-
 name = "reldate"
 version = "0.0.1"
 authors = ["J/A <archer884@gmail.com>"]
 
 [lib]
-
 name = "datestream"
 path = "src/datestream.rs"
 
 [dependencies]
-
 chrono = "*"
-
-[dependencies.clap]
-
-git = "https://github.com/kbknapp/clap-rs"
+clap = "*"
