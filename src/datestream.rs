@@ -4,7 +4,7 @@
 //!
 //! A relative date is like when you've got a meeting on monday, but it's a meeting 
 //! that happens on the third day of every month. It isn't possible to add this sort 
-//! of thing to a lot of calendars because it's kind of a rare featujre: iOS and 
+//! of thing to a lot of calendars because it's kind of a rare feature: iOS and 
 //! Android both lack this capability out of the box.
 //!
 //! This library simplifies the task of creating sequences of relative dates so that 
