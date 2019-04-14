@@ -36,7 +36,7 @@ where
     }
 
     pub fn from_date(date: NaiveDate, f: F) -> DateRangeIterator<F> {
-        DateRangeIterator { i: date, f: f }
+        DateRangeIterator { i: date, f }
     }
 }
 
