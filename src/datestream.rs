@@ -14,7 +14,6 @@
 //!
 //! <Code samples go here.>
 
-#![feature(box_syntax, std_misc)]
 extern crate chrono;
 use chrono::{ Datelike, Duration, Local, NaiveDate, Weekday };
 
@@ -24,12 +23,13 @@ use chrono::{ Datelike, Duration, Local, NaiveDate, Weekday };
 /// seed date; the range will continue to the upper or lower bound of `NaiveDate` 
 /// and should be bounded otherwise by a `take()` or `take_while()` iterator adapter.
 pub struct DateRangeIterator<F> {
-    i: Option<NaiveDate>,
+    i: NaiveDate,
     f: F,
 }
 
 impl<F> DateRangeIterator<F>
-    where F: FnMut(&NaiveDate) -> Option<NaiveDate>
+where
+    F: FnMut(NaiveDate) -> NaiveDate
 {
     pub fn new(f: F) -> DateRangeIterator<F> {
         DateRangeIterator::from_date(Local::today().naive_local(), f)
@@ -37,43 +37,34 @@ impl<F> DateRangeIterator<F>
 
     pub fn from_date(date: NaiveDate, f: F) -> DateRangeIterator<F> {
         DateRangeIterator {
-            i: Some(date),
+            i: date,
             f: f,
         }
     }
 }
 
 impl<F> Iterator for DateRangeIterator<F>
-    where F: FnMut(&NaiveDate) -> Option<NaiveDate>
+    where F: FnMut(NaiveDate) -> NaiveDate
 {
     type Item = NaiveDate;
 
     fn next(&mut self) -> Option<NaiveDate> {
-        match self.i {
-            Some(i) => {
-                let ret = Some(i);
-                self.i = (self.f)(&i);
-                ret
-            },
-            None => None
-        }
+        let ret = self.i;
+        self.i = (self.f)(self.i);
+        Some(ret)
     }
 }
 
-pub fn weekday_iterator(date: NaiveDate, day: Weekday)
-    -> Box<Iterator<Item=NaiveDate>>
-{
-    box DateRangeIterator::from_date(date, move |d| weekday_incrementor(d, day)).skip(1)
+pub fn weekday_iterator(date: NaiveDate, day: Weekday) -> impl Iterator<Item = NaiveDate> {
+    DateRangeIterator::from_date(date, move |d| weekday_incrementor(d, day)).skip(1)
 }
 
-fn weekday_incrementor(date: &NaiveDate, day: Weekday) -> Option<NaiveDate> {
-    let mut date = date.clone();
+fn weekday_incrementor(mut date: NaiveDate, day: Weekday) -> NaiveDate {
     loop {
-        date = match date.checked_add(Duration::days(1)) {
-            Some(date) if date.weekday() == day => return Some(date),
-            Some(date) => date,
-            None => return None,
-        };
+        date += Duration::days(1);
+        if date.weekday() == day {
+            return date;
+        }
     }
 }
 
@@ -93,7 +84,7 @@ mod test {
     fn can_generate_range() {
         let range: Vec<_> = DateRangeIterator::from_date(
                 NaiveDate::from_ymd(2015, 3, 27),
-                |&d| d.checked_add(Duration::days(1)))
+                |d| d + Duration::days(1))
             .take(5)
             .collect();
         println!("{:?}", range); // output not printed on success?

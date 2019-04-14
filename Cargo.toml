@@ -8,5 +8,5 @@ name = "datestream"
 path = "src/datestream.rs"
 
 [dependencies]
-chrono = "*"
-clap = "*"
+chrono = "0.4.6"
+clap = "2.33.0"
